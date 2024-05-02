@@ -34,7 +34,7 @@ function generateFileHTML(file) {
                             <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalEditar" onclick="handleFolderClick(${file.id})">Editar</a></li>
                             <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalCompartir">Compartir</a></li>
                             <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalMover">Mover</a></li>
-                            <li><a class="dropdown-item bg-danger" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalDelete">Delete</a></li>
+                            <li><a class="dropdown-item bg-danger" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalDelete" onclick="handleFolderClick(${file.id})">Delete</a></li>
                         </ul>
                     </div>
                     <div class="file-img-box"><img src="https://th.bing.com/th/id/R.e43105275f60093be5532690e1fef430?rik=KIi5yjZmINd03g&pid=ImgRaw&r=0" alt="icon"></div>
@@ -370,7 +370,30 @@ function handleModalDelete(modalId) {
 
         // Print "hello" to the console
         console.log("hello");
+        var requestOptions = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${tokenValue}`
+            }
+        };
+        
+        fetch(`http://127.0.0.1:8000/api/carpetas/${CarpetaTemp}`, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Hubo un problema con la solicitud.');
+                }
+                return response.json();
+            })
+            .then(data => {  
+                console.log(data)
+                window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 
+        
         // Close the modal
         const modalInstance = bootstrap.Modal.getInstance(modal);
         modalInstance.hide();
