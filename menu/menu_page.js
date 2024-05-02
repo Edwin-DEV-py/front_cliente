@@ -12,13 +12,15 @@ function getCookie(cookieName) {
     }
     return "";
 }
+var tokenValue = getCookie("token");
 
-const filesData = [
+var filesData = [
     
 ];
 
+var folderId = 0;
 
-// Function to generate HTML for each file/folder item
+//#region Function to generate HTML for each file/folder item
 function generateFileHTML(file) {
     if (file.type === 'folder') {
         return `
@@ -29,7 +31,7 @@ function generateFileHTML(file) {
                             <i class="">•••</i>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" data-bs-theme="dark">
-                            <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalEditar">Editar</a></li>
+                            <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalEditar" onclick="handleFolderClick(${file.id})">Editar</a></li>
                             <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalCompartir">Compartir</a></li>
                             <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalMover">Mover</a></li>
                             <li><a class="dropdown-item bg-danger" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalDelete">Delete</a></li>
@@ -38,7 +40,8 @@ function generateFileHTML(file) {
                     <div class="file-img-box"><img src="${file.icon}" alt="icon"></div>
                     <a href="#" class="file-download"></a>
                     <div class="file-man-title">
-                        <a href="#"><h5 class="mb-2text-overflow">${file.name}</h5></a>
+                        <a href="" style="display: none;" class="fileFolderId">${ file.id }</a>
+                        <a href="#" onclick="changeFolderId(${file.id})"><h5 class="mb-2text-overflow">${file.folderName}</h5></a>
                     </div>
                 </div>
             </div>
@@ -61,7 +64,8 @@ function generateFileHTML(file) {
                     <div class="file-img-box"><img src="${file.icon}" alt="icon"></div>
                     <a href="#" class="file-download"><i class="fa fa-download"></i></a>
                     <div class="file-man-title">
-                        <h5 class="mb-2 text-overflow">${file.name}</h5>
+                        <a href="" style="display: none;" class="fileFolderId">${ file.id }</a>
+                        <h5 class="mb-2 text-overflow">${file.fileName}</h5>
                     </div>
                 </div>
             </div>
@@ -69,12 +73,11 @@ function generateFileHTML(file) {
     }
 }
 
-
 // Function to generate HTML for all files/folders
 function generateFilesHTML(files) {
-    var tokenValue = getCookie("token");
-
-    fetch('http://127.0.0.1:8000/api/carpetas/', {
+    const currentPageUrl = window.location.href;
+    console.log(currentPageUrl)
+    fetch(`http://127.0.0.1:8000/api/carpetas/${folderId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -88,10 +91,8 @@ function generateFilesHTML(files) {
             return response.json();
         })
         .then(data => {
-            
             data.data.forEach( e => {
                 filesData.push(e);
-                console.log(e)
             });
 
             const filesHTML = filesData.map(file => generateFileHTML(file)).join('');
@@ -108,8 +109,22 @@ function generateFilesHTML(files) {
 
 generateFilesHTML(filesData);
 
-// Function to handle modal form submission
-function handleModalTextSubmit(modalId) {
+function changeFolderId(fileId){
+    folderId = fileId;
+    filesData = [];
+    generateFilesHTML(filesData);
+}
+//#endregion
+
+//#region Function to handle modal form submission
+var CarpetaTemp = 0;
+
+function handleFolderClick(folderId) {
+    console.log('ID de la carpeta:', folderId);
+    CarpetaTemp = folderId;
+}
+
+function handleModalTextSubmitEDITAR(modalId) {
     const modal = document.getElementById(modalId);
     const form = modal.querySelector('form');
 
@@ -118,10 +133,83 @@ function handleModalTextSubmit(modalId) {
         
         // Get the input value
         const input = form.querySelector('input[type="text"]');
-        const inputValue = input.value;
+        const folderName = input.value;
+
+        var data = {
+            folderName: folderName,
+            folderParent: folderId,
+            folderId: CarpetaTemp
+        };
+    
+        var requestOptions = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${tokenValue}`
+            },
+            body: JSON.stringify(data)
+        };
+    
+        fetch('http://127.0.0.1:8000/api/carpetas/', requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Hubo un problema con la solicitud.');
+                }
+                return response.json();
+            })
+            .then(data => {  
+                console.log(data)
+                window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+        // Close the modal
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+    });
+}
+
+function handleModalTextSubmitCREAR(modalId) {
+    const modal = document.getElementById(modalId);
+    const form = modal.querySelector('form');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
         
-        // Show the input value in the console
-        console.log('Input value:', inputValue);
+        // Get the input value
+        const input = form.querySelector('input[type="text"]');
+        const folderName = input.value;
+
+        var data = {
+            folderName: folderName,
+            folderParent: folderId,
+        };
+    
+        var requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${tokenValue}`
+            },
+            body: JSON.stringify(data)
+        };
+    
+        fetch('http://127.0.0.1:8000/api/carpetas/', requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Hubo un problema con la solicitud.');
+                }
+                return response.json();
+            })
+            .then(data => {  
+                console.log(data)
+                window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 
         // Close the modal
         const modalInstance = bootstrap.Modal.getInstance(modal);
@@ -130,8 +218,8 @@ function handleModalTextSubmit(modalId) {
 }
 
 // Handle modal form submission for each modal
-handleModalTextSubmit('modalEditar');
-handleModalTextSubmit('modalCarpeta');
+handleModalTextSubmitEDITAR('modalEditar');
+handleModalTextSubmitCREAR('modalCarpeta');
 
 // Function to handle modal form submission
 function handleModalOptionSubmit(modalId) {
@@ -162,24 +250,58 @@ handleModalOptionSubmit('modalMover');
 function handleFileInput(modalId) {
     const modal = document.getElementById(modalId);
     const fileInput = modal.querySelector('input[type="file"]');
-
     if (!fileInput) {
         console.error('File input not found in modal:', modalId);
         return;
     }
 
+    listFile=[]
+
     fileInput.addEventListener('change', function(event) {
-        // Do nothing here
+        const selectedFile = fileInput.files[0];
+        listFile.push(selectedFile)
+        console.log('Archivo seleccionado:', selectedFile);
     });
     
     // Add event listener for form submit
     const form = fileInput.closest('form');
     form.addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
-        
-        // Print "Hello" when the file is submitted
+
+        const formData = new FormData();
+        const fileInput = document.getElementById('formFile');
+        formData.append('folder_id', folderId);
+        for (const file of fileInput.files) {
+            formData.append('files', file);
+        }
+        console.log(formData)
+    
+        var requestOptions = {
+            method: 'POST',
+            headers: {
+                'Authorization': `${tokenValue}`
+            },
+            body: formData
+        };
+    
+        fetch('http://127.0.0.1:8000/api/archivos/', requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Hubo un problema con la solicitud.');
+                }
+                return response.json();
+            })
+            .then(data => {  
+                console.log(data)
+                window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
         console.log('Hello');
     });
 }
 
 handleFileInput('modalArchivo');
+//#endregion

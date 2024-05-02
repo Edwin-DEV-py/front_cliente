@@ -258,10 +258,10 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form action="" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Agrega un archivo</label>
-                        <input class="form-control" type="file" id="formFile">
+                        <input class="form-control" type="file" id="formFile" multiple>
                     </div>
                     <button type="submit" class="btn btn-primary">Subir Archivo</button>
                 </form>
