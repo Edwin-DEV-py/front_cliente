@@ -162,7 +162,32 @@
                     <div class="mb-3 p-2">
                         <label for="cambiarNombre" class="form-label">Editar Nombre</label>
                         <input type="text" class="form-control" id="cambiarNombre" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">Edita el nombre del archivo/carpeta.</div>
+                        <div id="emailHelp" class="form-text">Edita el nombre del carpeta.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Editar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Archivo-->
+    <div class="modal fade" id="modalEditarArchivo" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalEditarLabel">Editar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="mb-3 p-2">
+                        <label for="cambiarNombre" class="form-label">Editar Nombre</label>
+                        <input type="text" class="form-control" id="cambiarNombre" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">Edita el nombre del archivo.</div>
                     </div>
                     <button type="submit" class="btn btn-primary">Editar</button>
                 </form>

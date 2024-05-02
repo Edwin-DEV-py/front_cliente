@@ -19,7 +19,7 @@ var filesData = [
 ];
 
 var folderId = 0;
-
+var FileIdTemp = 0;
 //#region Function to generate HTML for each file/folder item
 function generateFileHTML(file) {
     if (file.type === 'folder') {
@@ -55,7 +55,7 @@ function generateFileHTML(file) {
                             <i class="">•••</i>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" data-bs-theme="dark">
-                            <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalEditar">Editar</a></li>
+                            <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalEditarArchivo" onclick="handleFileClick(${file.id})">Editar</a></li>
                             <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalCompartir">Compartir</a></li>
                             <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalMover">Mover</a></li>
                             <li><a class="dropdown-item bg-danger" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalDelete">Delete</a></li>
@@ -122,6 +122,11 @@ var CarpetaTemp = 0;
 function handleFolderClick(folderId) {
     console.log('ID de la carpeta:', folderId);
     CarpetaTemp = folderId;
+}
+
+function handleFileClick(fileIdTemp) {
+    console.log('ID de la carpeta:', folderId);
+    FileIdTemp = fileIdTemp;
 }
 
 function handleModalTextSubmitEDITAR(modalId) {
@@ -302,6 +307,55 @@ function handleFileInput(modalId) {
         console.log('Hello');
     });
 }
+
+function handleModalTextSubmitEDITARARCHIVO(modalId) {
+    const modal = document.getElementById(modalId);
+    const form = modal.querySelector('form');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        
+        // Get the input value
+        const input = form.querySelector('input[type="text"]');
+        const fileName = input.value;
+
+        var data = {
+            fileName: fileName,
+            folderParent: folderId,
+            fileId: FileIdTemp
+        };
+        console.log(data)
+        var requestOptions = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${tokenValue}`
+            },
+            body: JSON.stringify(data)
+        };
+    
+        fetch('http://127.0.0.1:8000/api/archivos2/', requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Hubo un problema con la solicitud.');
+                }
+                return response.json();
+            })
+            .then(data => {  
+                console.log(data)
+                window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+        // Close the modal
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+    });
+}
+
+handleModalTextSubmitEDITARARCHIVO('modalEditarArchivo')
 
 handleFileInput('modalArchivo');
 //#endregion
