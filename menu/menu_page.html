@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register</title>
+    <link rel="stylesheet" href="menu_page.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body class="bg-light">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="m-auto">
+        <header class="p-3 text-bg-dark">
+            <div class="d-flex flex-column flex-md-row align-items-center">
+            <a href="#" class="d-flex align-items-center text-decoration-none text-light">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" class="me-2" viewBox="0 0 118 94" role="img"><title>Bootstrap</title><path fill-rule="evenodd" clip-rule="evenodd" d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z" fill="currentColor"></path></svg>
+                <span class="fs-4">Grupo Boston</span>
+            </a>
+        
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <button class="btn btn-outline-danger me-2" type="button">Log out</button>
+            </nav>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-box bg-light">
+                            <div class="row mb-4">
+                                <div class="col-lg-4 col-xl-4 mt-2">
+                                    <h4 class="header-title m-b-30">My Files</h4>
+                                </div>
+                                <div class="col-lg-4 col-xl-4 mt-2">
+                                    <h5>main/</h5>
+                                </div>
+                                <div class="col-lg-4 col-xl-4">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalArchivo">
+                                        Añadir archivo
+                                    </button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCarpeta">
+                                        Crear carpeta
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row" id="files-container">
+
+                                <!-- place the generated HTML here -->
+
+                                <!-- end here -->
+
+                                <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2">
+                                    <div class="file-man-box">
+                                        <div class="dropdown file-close dropdown">
+                                            <button
+                                                data-mdb-button-init data-mdb-ripple-init data-mdb-dropdown-init class="btn btn-secondary dropdown-toggle hidden-arrow dropdown-menu-dark"
+                                                type="button"
+                                                id="dropdownMenuButton1"
+                                                data-bs-toggle="dropdown"
+                                                aria-expanded="false"
+                                            >
+                                                <i class="">•••</i>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" data-bs-theme="dark">
+                                                <li>
+                                                    <a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalEditar">
+                                                        Editar
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalCompartir">
+                                                        Compartir
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalMover">
+                                                        Mover
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item bg-danger" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalDelete">
+                                                        Delete
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="file-img-box"><img src="https://coderthemes.com/highdmin/layouts/assets/images/file_icons/pdf.svg" alt="icon"></div><a href="#" class="file-download"></a>
+                                        <div class="file-man-title">
+                                            <a href="">
+                                                <h5 class="mb-2text-overflow">folder</h5>
+                                            </a>
+                                            <!-- <p class="mb-0"><small>568.8 kb</small></p> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5 col-md-4 col-lg-3 col-xl-2">
+                                    <div class="file-man-box">
+                                        <div class="dropdown file-close dropdown">
+                                            <button
+                                                data-mdb-button-init data-mdb-ripple-init data-mdb-dropdown-init class="btn btn-secondary dropdown-toggle hidden-arrow dropdown-menu-dark"
+                                                type="button"
+                                                id="dropdownMenuButton1"
+                                                data-bs-toggle="dropdown"
+                                                aria-expanded="false"
+                                            >
+                                                <i class="">•••</i>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" data-bs-theme="dark">
+                                                <li>
+                                                    <a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalEditar">
+                                                        Editar
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalCompartir">
+                                                        Compartir
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalMover">
+                                                        Mover
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item bg-danger" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalDelete">
+                                                        Delete
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="file-img-box"><img src="https://coderthemes.com/highdmin/layouts/assets/images/file_icons/pdf.svg" alt="icon"></div><a href="#" class="file-download"><i class="fa fa-download"></i></a>
+                                        <div class="file-man-title">
+                                            <h5 class="mb-2 text-overflow">invoice_project.pdf</h5>
+                                            <!-- <p class="mb-0"><small>568.8 kb</small></p> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- container -->
+        </div>
+    </div>
+
+    <!-- Modal Editar -->
+    <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalEditarLabel">Editar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="mb-3 p-2">
+                        <label for="cambiarNombre" class="form-label">Editar Nombre</label>
+                        <input type="text" class="form-control" id="cambiarNombre" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">Edita el nombre del archivo/carpeta.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Editar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal Compartir -->
+    <div class="modal fade" id="modalCompartir" tabindex="-1" aria-labelledby="modalCompartirLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalCompartirLabel">Compartir</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Comparte este elemento</label>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Default</option>
+                            <option>persona 1</option>
+                            <option>persona 2</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Compartir</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal Mover -->
+    <div class="modal fade" id="modalMover" tabindex="-1" aria-labelledby="modalMoverLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalMoverLabel">Mover</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Mueve este elemento</label>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Default</option>
+                            <option>ruta 1</option>
+                            <option>ruta 2</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Mover</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal Delete -->
+    <div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="modalDeleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalDeleteLabel">Eliminar Elemento</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            Estas seguro que quieres borrar este elemento?
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal Subir Archivo -->
+    <div class="modal fade" id="modalArchivo" tabindex="-1" aria-labelledby="modalArchivoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalArchivoLabel">Subir Archivo</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Agrega un archivo</label>
+                        <input class="form-control" type="file" id="formFile">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Subir Archivo</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal Crear Carpeta -->
+    <div class="modal fade" id="modalCarpeta" tabindex="-1" aria-labelledby="modalCarpetaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalCarpetaLabel">Crear Carpeta</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="mb-3 p-2">
+                        <label for="crearCarpeta" class="form-label">Crea una nueva carpeta</label>
+                        <input type="text" class="form-control" id="crearCarpeta" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">Escribe el nombre de la nueva carpeta.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Crear Carpeta</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script src="menu_page.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>

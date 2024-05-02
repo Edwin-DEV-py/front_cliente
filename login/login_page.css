@@ -1,0 +1,6 @@
+/* background gradient */
+body {
+    background: #772cc7;
+    background: -webkit-linear-gradient(to right, rgba(169, 240, 222, 1), rgba(255, 187, 188, 1));
+    background: linear-gradient(to right, rgba(169, 240, 222, 1), rgba(255, 187, 188, 1))
+    }
