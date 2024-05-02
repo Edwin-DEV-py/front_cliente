@@ -37,7 +37,7 @@ function generateFileHTML(file) {
                             <li><a class="dropdown-item bg-danger" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalDelete">Delete</a></li>
                         </ul>
                     </div>
-                    <div class="file-img-box"><img src="${file.icon}" alt="icon"></div>
+                    <div class="file-img-box"><img src="https://th.bing.com/th/id/R.e43105275f60093be5532690e1fef430?rik=KIi5yjZmINd03g&pid=ImgRaw&r=0" alt="icon"></div>
                     <a href="#" class="file-download"></a>
                     <div class="file-man-title">
                         <a href="" style="display: none;" class="fileFolderId">${ file.id }</a>
@@ -61,7 +61,7 @@ function generateFileHTML(file) {
                             <li><a class="dropdown-item bg-danger" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalDelete">Delete</a></li>
                         </ul>
                     </div>
-                    <div class="file-img-box"><img src="${file.icon}" alt="icon"></div>
+                    <div class="file-img-box"><img src="https://th.bing.com/th/id/R.54eb6ec9a704d6b00def42331813f4ac?rik=mstC0zf4B5MGPQ&pid=ImgRaw&r=0" alt="icon"></div>
                     <a href="#" class="file-download"><i class="fa fa-download"></i></a>
                     <div class="file-man-title">
                         <a href="" style="display: none;" class="fileFolderId">${ file.id }</a>
@@ -359,3 +359,23 @@ handleModalTextSubmitEDITARARCHIVO('modalEditarArchivo')
 
 handleFileInput('modalArchivo');
 //#endregion
+
+function handleModalDelete(modalId) {
+    const modal = document.getElementById(modalId);
+    const deleteButton = modal.querySelector('.btn-danger');
+
+    deleteButton.addEventListener('click', function(event) {
+        // Prevent the default button action
+        event.preventDefault();
+
+        // Print "hello" to the console
+        console.log("hello");
+
+        // Close the modal
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+    });
+}
+
+// Handle delete action for the specified modal
+handleModalDelete('modalDelete');
