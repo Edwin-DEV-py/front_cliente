@@ -66,7 +66,7 @@ function generateFileHTML(file) {
                         </ul>
                     </div>
                     <div class="file-img-box"><img src="https://th.bing.com/th/id/R.54eb6ec9a704d6b00def42331813f4ac?rik=mstC0zf4B5MGPQ&pid=ImgRaw&r=0" alt="icon"></div>
-                    <a href="#" class="file-download"><i class="fa fa-download"></i></a>
+                    <a href="#" class="file-download"><i class="fa fa-download" onclick="handleFileClickDescargar(${file.id})"></i></a>
                     <div class="file-man-title">
                         <a href="" style="display: none;" class="fileFolderId">${ file.id }</a>
                         <h5 class="mb-2 text-overflow">${file.fileName}</h5>
@@ -603,3 +603,33 @@ function handleModalDeleteArchivo(modalId) {
 // Handle delete action for the specified modal
 handleModalDelete('modalDelete');
 handleModalDeleteArchivo("modalDeleteArchivo")
+
+//descargar archivos
+function handleFileClickDescargar(fileIdTemp){
+    console.log('ID dela rchivo:', fileIdTemp);
+    FileIdTemp = fileIdTemp
+
+    var requestOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${tokenValue}`
+        }
+    };
+    
+    fetch(`http://127.0.0.1:8000/api/archivos2/${FileIdTemp}`, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Hubo un problema con la solicitud.');
+            }
+            return response.json();
+        })
+        .then(data => {  
+            const fileUrl = data[0];
+            console.log(fileUrl)
+            window.open("http://" + fileUrl, '_blank');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
