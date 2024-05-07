@@ -58,7 +58,7 @@ function generateFileHTML(file) {
                             <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalEditarArchivo" onclick="handleFileClick(${file.id})">Editar</a></li>
                             <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalCompartir">Compartir</a></li>
                             <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalMover">Mover</a></li>
-                            <li><a class="dropdown-item bg-danger" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalDelete">Delete</a></li>
+                            <li><a class="dropdown-item bg-danger" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalDeleteArchivo" onclick="handleFileClick(${file.id})">Delete</a></li>
                         </ul>
                     </div>
                     <div class="file-img-box"><img src="https://th.bing.com/th/id/R.54eb6ec9a704d6b00def42331813f4ac?rik=mstC0zf4B5MGPQ&pid=ImgRaw&r=0" alt="icon"></div>
@@ -400,5 +400,47 @@ function handleModalDelete(modalId) {
     });
 }
 
+function handleModalDeleteArchivo(modalId) {
+    const modal = document.getElementById(modalId);
+    const deleteButton = modal.querySelector('.btn-danger');
+
+    deleteButton.addEventListener('click', function(event) {
+        // Prevent the default button action
+        event.preventDefault();
+
+        // Print "hello" to the console
+        console.log("hello2");
+        console.log(FileIdTemp);
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${tokenValue}`
+            }
+        };
+        
+        fetch(`http://127.0.0.1:8000/api/archivos2/${FileIdTemp}`, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Hubo un problema con la solicitud.');
+                }
+                return response.json();
+            })
+            .then(data => {  
+                console.log(data)
+                window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        
+        // Close the modal
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+    });
+}
+
 // Handle delete action for the specified modal
 handleModalDelete('modalDelete');
+handleModalDeleteArchivo("modalDeleteArchivo")
