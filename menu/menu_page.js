@@ -18,6 +18,10 @@ var filesData = [
     
 ];
 
+var filesData2 = [
+    
+];
+
 var folderId = 0;
 var FileIdTemp = 0;
 //#region Function to generate HTML for each file/folder item
@@ -33,7 +37,7 @@ function generateFileHTML(file) {
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" data-bs-theme="dark">
                             <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalEditar" onclick="handleFolderClick(${file.id})">Editar</a></li>
                             <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalCompartir">Compartir</a></li>
-                            <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalMover">Mover</a></li>
+                            <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalMover" onclick="handleFolderClickMover(${file.id},'${file.folderName}')">Mover</a></li>
                             <li><a class="dropdown-item bg-danger" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalDelete" onclick="handleFolderClick(${file.id})">Delete</a></li>
                         </ul>
                     </div>
@@ -57,7 +61,7 @@ function generateFileHTML(file) {
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" data-bs-theme="dark">
                             <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalEditarArchivo" onclick="handleFileClick(${file.id})">Editar</a></li>
                             <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalCompartir">Compartir</a></li>
-                            <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalMover">Mover</a></li>
+                            <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalMoverArchivo" onclick="handleFolderClickMover2(${file.id},'${file.fileName}')">Mover</a></li>
                             <li><a class="dropdown-item bg-danger" href="#" type="button" data-bs-toggle="modal" data-bs-target="#modalDeleteArchivo" onclick="handleFileClick(${file.id})">Delete</a></li>
                         </ul>
                     </div>
@@ -122,6 +126,85 @@ var CarpetaTemp = 0;
 function handleFolderClick(folderId) {
     console.log('ID de la carpeta:', folderId);
     CarpetaTemp = folderId;
+}
+
+var folderNameTemp;
+//mover
+function handleFolderClickMover(folderId, name) {
+    console.log('ID de la carpeta:', folderId);
+    CarpetaTemp = folderId;
+    folderNameTemp = name;
+    console.log(name)
+    fetch(`http://127.0.0.1:8000/api/carpetas2/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${tokenValue}`
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Hubo un problema con la solicitud.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const selectBox = document.getElementById('selectCarpetas');
+            selectBox.innerHTML = '';
+
+            data.data.forEach( e => {
+                console.log(data.data)
+                const option = document.createElement('option');
+                option.textContent = e.folderName;
+                option.value = e.id;
+                selectBox.appendChild(option);
+            });
+
+            //console.log(filesData2)
+            
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+var fileNameTemp;
+function handleFolderClickMover2(folderId, name) {
+    console.log('ID de la carpeta:', folderId);
+    FileIdTemp = folderId;
+    fileNameTemp = name;
+    console.log(name)
+    fetch(`http://127.0.0.1:8000/api/carpetas2/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${tokenValue}`
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Hubo un problema con la solicitud.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const selectBox = document.getElementById('selectArchivos');
+            selectBox.innerHTML = '';
+
+            data.data.forEach( e => {
+                console.log(data.data)
+                const option = document.createElement('option');
+                option.textContent = e.folderName;
+                option.value = e.id;
+                selectBox.appendChild(option);
+            });
+
+            //console.log(filesData2)
+            
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 function handleFileClick(fileIdTemp) {
@@ -227,7 +310,7 @@ handleModalTextSubmitEDITAR('modalEditar');
 handleModalTextSubmitCREAR('modalCarpeta');
 
 // Function to handle modal form submission
-function handleModalOptionSubmit(modalId) {
+function handleModalOptionSubmitMoverCarpeta(modalId) {
     const modal = document.getElementById(modalId);
     const form = modal.querySelector('form');
 
@@ -239,7 +322,83 @@ function handleModalOptionSubmit(modalId) {
         const inputValue = select.value;
         
         // Show the input value in the console
-        console.log('Input value:', inputValue);
+        var data = {
+            folderName: folderNameTemp,
+            folderParent: inputValue,
+            folderId: CarpetaTemp
+        };
+    
+        var requestOptions = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${tokenValue}`
+            },
+            body: JSON.stringify(data)
+        };
+    
+        fetch('http://127.0.0.1:8000/api/carpetas/', requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Hubo un problema con la solicitud.');
+                }
+                return response.json();
+            })
+            .then(data => {  
+                console.log(data)
+                window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+        // Close the modal
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+    });
+}
+
+function handleModalOptionSubmitMoverArchivo(modalId) {
+    const modal = document.getElementById(modalId);
+    const form = modal.querySelector('form');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        
+        // Get the input value
+        const select = form.querySelector('select');
+        const inputValue = select.value;
+        
+        // Show the input value in the console
+        var data = {
+            fileName: fileNameTemp,
+            folderParent: inputValue,
+            fileId: FileIdTemp
+        };
+    
+        var requestOptions = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${tokenValue}`
+            },
+            body: JSON.stringify(data)
+        };
+    
+        fetch('http://127.0.0.1:8000/api/archivos2/', requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Hubo un problema con la solicitud.');
+                }
+                return response.json();
+            })
+            .then(data => {  
+                console.log(data)
+                window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 
         // Close the modal
         const modalInstance = bootstrap.Modal.getInstance(modal);
@@ -248,9 +407,9 @@ function handleModalOptionSubmit(modalId) {
 }
 
 // Handle modal form submission for each modal
-handleModalOptionSubmit('modalCompartir');
-handleModalOptionSubmit('modalMover');
-
+handleModalOptionSubmitMoverCarpeta('modalCompartir');
+handleModalOptionSubmitMoverCarpeta('modalMover');
+handleModalOptionSubmitMoverArchivo('modalMoverArchivo')
 // Function to handle file input change
 function handleFileInput(modalId) {
     const modal = document.getElementById(modalId);
